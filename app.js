@@ -35,7 +35,11 @@ function tileFace(tile) {
 function tileNode(tile,small=false,button=false){const el=document.createElement(button?'button':'span');el.className=`tile${tile.red?' red':''}${small?' small':''}`;el.innerHTML=tileFace(tile);el.title=tile.red?`${NAMES[tile.t]}（赤ドラ）`:NAMES[tile.t];el.setAttribute('aria-label',el.title);if(button)el.type='button';return el;}
 function render(){if(!game)return; const [you,a,b]=game.players; [['a',a],['b',b]].forEach(([id,p])=>{const hand=$( `cpu-${id}-hand`);hand.innerHTML='';for(let i=0;i<p.hand.length;i++){const x=document.createElement('span');x.className='back';hand.append(x);} const river=$( `cpu-${id}-river`);river.innerHTML='';p.river.forEach(t=>river.append(tileNode(t,true)));$(`cpu-${id}-state`).textContent=`${p.riichi?'リーチ！ ':''}北 ${p.kita}枚`;}); const y=$('your-hand');y.innerHTML='';sortHand(you.hand);you.hand.forEach((t,i)=>{const el=tileNode(t,false,true);el.disabled=!game.turn||game.ended;el.onclick=()=>playerDiscard(i);y.append(el);});const river=$('your-river');river.innerHTML='';you.river.forEach(t=>river.append(tileNode(t,true)));const handShanten=you.hand.length%3===2?bestDiscards(you.hand).score:shanten(you.hand);$('you-state').textContent=`北抜き ${you.kita}枚 / ${handShanten}シャンテン`; $('wall-count').textContent=`山 ${game.wall.length}枚`; const riichi=game.players.slice(1).filter(p=>p.riichi);$('danger').hidden=!riichi.length;$('danger').textContent=riichi.length?`危険：${riichi.map(p=>p.name).join('・')} がリーチ中` : '';}
 function end(win,text){game.ended=true;game.turn=false;render();$('result-title').textContent=win?'クリア！':'ゲームオーバー';$('result-text').textContent=text;$('result-dialog').showModal();}
-$('open-efficiency').onclick=()=>{$('home-screen').hidden=true;$('game-screen').hidden=false;};
+$('open-efficiency').onclick=()=>{
+  $('home-screen').hidden=true;
+  $('game-screen').hidden=false;
+  startGame();
+};
 $('back-home').onclick=()=>{$('game-screen').hidden=true;$('home-screen').hidden=false;};
 $('start-game').onclick=startGame;$('new-game').onclick=startGame;$('play-again').onclick=()=>{$('result-dialog').close();startGame();};
 render();
