@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>三人麻雀 牌効率トレーニング</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header>
+      <div>
+        <p class="eyebrow">SANMA • TILE EFFICIENCY</p>
+        <h1>三人麻雀 牌効率トレーニング</h1>
+      </div>
+      <button id="new-game" class="secondary">最初から</button>
+    </header>
+
+    <section class="rules" aria-label="ルール">
+      <span>三人打ち</span><span>全赤</span><span>北抜きドラ</span><span>花牌なし</span>
+      <strong>自分がテンパイすればクリア。CPUのリーチ牌に放銃するとゲームオーバー。</strong>
+    </section>
+
+    <section class="table" aria-live="polite">
+      <div class="opponent left">
+        <div class="player-heading"><span class="seat">西</span><strong>CPU A</strong><span id="cpu-a-state" class="state">手牌 13枚</span></div>
+        <div id="cpu-a-hand" class="opponent-hand"></div>
+        <div id="cpu-a-river" class="river"></div>
+      </div>
+
+      <div class="table-center">
+        <div class="round-badge">東 1 局</div>
+        <div id="wall-count" class="wall-count">山 0枚</div>
+        <div id="message" class="message">開始を待っています</div>
+        <div id="danger" class="danger" hidden></div>
+        <button id="hint" class="hint">牌効率ヒント</button>
+      </div>
+
+      <div class="opponent right">
+        <div class="player-heading"><span class="seat">北</span><strong>CPU B</strong><span id="cpu-b-state" class="state">手牌 13枚</span></div>
+        <div id="cpu-b-hand" class="opponent-hand"></div>
+        <div id="cpu-b-river" class="river"></div>
+      </div>
+    </section>
+
+    <section class="you">
+      <div class="player-heading"><span class="seat you-seat">南</span><strong>あなた</strong><span id="you-state" class="state"></span></div>
+      <p id="instruction">「ゲームを始める」を押してください。</p>
+      <div id="your-hand" class="your-hand"></div>
+      <div class="you-bottom">
+        <div><span class="label">捨て牌</span><div id="your-river" class="river"></div></div>
+        <button id="start-game" class="primary">ゲームを始める</button>
+      </div>
+    </section>
+  </main>
+  <dialog id="result-dialog">
+    <h2 id="result-title"></h2>
+    <p id="result-text"></p>
+    <button id="play-again" class="primary">もう一局遊ぶ</button>
+  </dialog>
+  <script src="app.js"></script>
+</body>
+</html>
