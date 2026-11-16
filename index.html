@@ -14,7 +14,7 @@
     <section class="mode-list" aria-label="トレーニングメニュー">
       <button id="open-efficiency" class="mode-card" type="button">
         <span class="mode-icon">牌</span>
-        <span class="mode-content"><strong>牌効率トレーニング</strong><small>三人麻雀でテンパイまでの最適な選択を練習</small></span>
+        <span class="mode-content"><strong>何切るトレーニング</strong><small>一人でテンパイまでの最適な選択を練習</small></span>
         <span class="mode-arrow">›</span>
       </button>
       <div class="mode-card coming-soon" aria-label="今後追加予定のメニュー">
@@ -28,19 +28,19 @@
     <header>
       <div>
         <p class="eyebrow">SANMA • TILE EFFICIENCY</p>
-        <h1>三人麻雀 牌効率トレーニング</h1>
+        <h1>何切るトレーニング</h1>
       </div>
       <div class="header-actions"><button id="back-home" class="secondary">トップへ</button><button id="new-game" class="secondary">最初から</button></div>
     </header>
 
     <section class="rules" aria-label="ルール">
       <span>三人打ち</span><span>全赤</span><span>北抜きドラ</span><span>花牌なし</span>
-      <strong>自分がテンパイすればクリア。CPUのリーチ牌に放銃するとゲームオーバー。</strong>
+      <strong>自分がテンパイすればクリア。他家の河はランダムな捨て牌です。</strong>
     </section>
 
     <section class="table" aria-live="polite">
       <div class="opponent left">
-        <div class="player-heading"><span class="seat">西</span><strong>CPU A</strong><span id="cpu-a-state" class="state">手牌 13枚</span></div>
+        <div class="player-heading"><span class="seat">西</span><strong>架空の他家 A</strong><span id="cpu-a-state" class="state">ランダムな捨て牌</span></div>
         <div id="cpu-a-hand" class="opponent-hand"></div>
         <div id="cpu-a-river" class="river"></div>
       </div>
@@ -54,7 +54,7 @@
       </div>
 
       <div class="opponent right">
-        <div class="player-heading"><span class="seat">北</span><strong>CPU B</strong><span id="cpu-b-state" class="state">手牌 13枚</span></div>
+        <div class="player-heading"><span class="seat">北</span><strong>架空の他家 B</strong><span id="cpu-b-state" class="state">ランダムな捨て牌</span></div>
         <div id="cpu-b-hand" class="opponent-hand"></div>
         <div id="cpu-b-river" class="river"></div>
       </div>
