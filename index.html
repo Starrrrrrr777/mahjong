@@ -7,13 +7,30 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="app-shell">
+  <main id="home-screen" class="home-screen">
+    <p class="eyebrow">SANMA PRACTICE</p>
+    <h1>麻雀トレーニング</h1>
+    <p class="home-lead">遊びたいメニューを選択してください。</p>
+    <section class="mode-list" aria-label="トレーニングメニュー">
+      <button id="open-efficiency" class="mode-card">
+        <span class="mode-icon">牌</span>
+        <span class="mode-content"><strong>牌効率トレーニング</strong><small>三人麻雀でテンパイまでの最適な選択を練習</small></span>
+        <span class="mode-arrow">›</span>
+      </button>
+      <div class="mode-card coming-soon" aria-label="今後追加予定のメニュー">
+        <span class="mode-icon">＋</span>
+        <span class="mode-content"><strong>今後のトレーニング</strong><small>新しい機能を追加予定です</small></span>
+      </div>
+    </section>
+  </main>
+
+  <main id="game-screen" class="app-shell" hidden>
     <header>
       <div>
         <p class="eyebrow">SANMA • TILE EFFICIENCY</p>
         <h1>三人麻雀 牌効率トレーニング</h1>
       </div>
-      <button id="new-game" class="secondary">最初から</button>
+      <div class="header-actions"><button id="back-home" class="secondary">トップへ</button><button id="new-game" class="secondary">最初から</button></div>
     </header>
 
     <section class="rules" aria-label="ルール">

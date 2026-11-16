@@ -25,23 +25,17 @@ function cpuTurn(cpu){ if(game.ended||!game.wall.length)return; const drawn=take
   else { const best=bestDiscards(cpu.hand); idx=best.choices[Math.floor(Math.random()*best.choices.length)]; }
   if(idx<0) idx=cpu.hand.length-1; const tile=cpu.hand.splice(idx,1)[0]; cpu.river.push(tile); game.discarded.push(tile); if(!cpu.riichi){cpu.waits=tenpai(cpu.hand); if(cpu.waits.length){cpu.riichi=true;$('message').textContent=`${cpu.name} がリーチ！ 放銃に注意して牌を選びましょう。`; }} }
 function playerDiscard(i){ if(!game.turn||game.ended)return; const p=game.players[0], tile=p.hand.splice(i,1)[0]; const loser=game.players.slice(1).find(cpu=>cpu.riichi&&cpu.waits.includes(tile.t)); p.river.push(tile);game.discarded.push(tile); if(loser){end(false,`${loser.name} の待ち「${loser.waits.map(t=>NAMES[t]).join('・')}」に ${NAMES[tile.t]} を放銃しました。`);return;} if(tenpai(p.hand).length){end(true,`テンパイ！ 待ちは「${tenpai(p.hand).map(t=>NAMES[t]).join('・')}」です。`);return;} game.turn=false; cpuTurn(game.players[1]); cpuTurn(game.players[2]); if(game.wall.length){p.hand.push(takeTile());extractNorth(p);game.turn=true;$('message').textContent=$('message').textContent.includes('リーチ')?$ ('message').textContent:'ツモりました。不要な牌を1枚捨ててください。';}else end(false,'山がなくなりました。'); render(); }
-const PIP_POSITIONS = {
-  1:[[2,2]], 2:[[1,1],[3,3]], 3:[[1,1],[2,2],[3,3]], 4:[[1,1],[1,3],[3,1],[3,3]],
-  5:[[1,1],[1,3],[2,2],[3,1],[3,3]], 6:[[1,1],[2,1],[3,1],[1,3],[2,3],[3,3]],
-  7:[[1,1],[2,1],[3,1],[1,3],[2,3],[3,3],[2,2]],
-  8:[[1,1],[2,1],[3,1],[1,3],[2,3],[3,3],[1,2],[3,2]],
-  9:[[1,1],[1,2],[1,3],[2,1],[2,2],[2,3],[3,1],[3,2],[3,3]]
-};
-function marks(number) { return PIP_POSITIONS[number].map(([row,column])=>`<i style="grid-area:${row}/${column}"></i>`).join(''); }
 function tileFace(tile) {
   const number=Number(tile.t[0]), suit=tile.t[1], red=tile.red?' red':'';
-  if(suit==='m') return `<span class="man-number${red}">${number}</span><span class="man-label">萬</span>`;
-  if(suit==='p') return `<span class="pin pin-${number}${red}">${marks(number)}</span>`;
-  if(suit==='s') return `<span class="sou sou-${number}${red}">${marks(number)}</span>`;
+  if(suit==='m') return `<span class="tile-text man-number${red}">${number}萬</span>`;
+  if(suit==='p') return `<span class="tile-text pin-text${red}">${number}筒</span>`;
+  if(suit==='s') return `<span class="tile-text sou-text${red}">${number}索</span>`;
   return `<span class="honor honor-${number}">${NAMES[tile.t]}</span>`;
 }
 function tileNode(tile,small=false,button=false){const el=document.createElement(button?'button':'span');el.className=`tile${tile.red?' red':''}${small?' small':''}`;el.innerHTML=tileFace(tile);el.title=tile.red?`${NAMES[tile.t]}（赤ドラ）`:NAMES[tile.t];el.setAttribute('aria-label',el.title);if(button)el.type='button';return el;}
 function render(){if(!game)return; const [you,a,b]=game.players; [['a',a],['b',b]].forEach(([id,p])=>{const hand=$( `cpu-${id}-hand`);hand.innerHTML='';for(let i=0;i<p.hand.length;i++){const x=document.createElement('span');x.className='back';hand.append(x);} const river=$( `cpu-${id}-river`);river.innerHTML='';p.river.forEach(t=>river.append(tileNode(t,true)));$(`cpu-${id}-state`).textContent=`${p.riichi?'リーチ！ ':''}北 ${p.kita}枚`;}); const y=$('your-hand');y.innerHTML='';sortHand(you.hand);you.hand.forEach((t,i)=>{const el=tileNode(t,false,true);el.disabled=!game.turn||game.ended;el.onclick=()=>playerDiscard(i);y.append(el);});const river=$('your-river');river.innerHTML='';you.river.forEach(t=>river.append(tileNode(t,true)));const handShanten=you.hand.length%3===2?bestDiscards(you.hand).score:shanten(you.hand);$('you-state').textContent=`北抜き ${you.kita}枚 / ${handShanten}シャンテン`; $('wall-count').textContent=`山 ${game.wall.length}枚`; const riichi=game.players.slice(1).filter(p=>p.riichi);$('danger').hidden=!riichi.length;$('danger').textContent=riichi.length?`危険：${riichi.map(p=>p.name).join('・')} がリーチ中` : '';}
 function end(win,text){game.ended=true;game.turn=false;render();$('result-title').textContent=win?'クリア！':'ゲームオーバー';$('result-text').textContent=text;$('result-dialog').showModal();}
+$('open-efficiency').onclick=()=>{$('home-screen').hidden=true;$('game-screen').hidden=false;};
+$('back-home').onclick=()=>{$('game-screen').hidden=true;$('home-screen').hidden=false;};
 $('start-game').onclick=startGame;$('new-game').onclick=startGame;$('play-again').onclick=()=>{$('result-dialog').close();startGame();};
 render();
